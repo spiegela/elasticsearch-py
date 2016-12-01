@@ -564,7 +564,7 @@ class IndicesClient(NamespacedClient):
             '_settings'), params=params, body=body)
 
     @query_params('completion_fields', 'fielddata_fields', 'fields', 'groups',
-        'human', 'level', 'types')
+        'human', 'level', 'types', 'include_segment_file_sizes')
     def stats(self, index=None, metric=None, params=None):
         """
         Retrieve statistics on different operations happening on an index.
@@ -587,6 +587,9 @@ class IndicesClient(NamespacedClient):
             default 'indices', valid choices are: 'cluster', 'indices', 'shards'
         :arg types: A comma-separated list of document types for the `indexing`
             index metric
+        :arg include_segment_file_sizes: Whether to report the aggregated disk
+            usage of each one of the Lucene index files (only applies if segment
+            stats are requested)
         """
         return self.transport.perform_request('GET', _make_path(index,
             '_stats', metric), params=params)

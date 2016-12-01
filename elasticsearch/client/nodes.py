@@ -23,7 +23,7 @@ class NodesClient(NamespacedClient):
             node_id, metric), params=params)
 
     @query_params('completion_fields', 'fielddata_fields', 'fields', 'groups',
-        'human', 'level', 'timeout', 'types')
+        'human', 'level', 'timeout', 'types', 'include_segment_file_sizes')
     def stats(self, node_id=None, metric=None, index_metric=None, params=None):
         """
         The cluster nodes stats API allows to retrieve one or more (or all) of
@@ -54,6 +54,9 @@ class NodesClient(NamespacedClient):
         :arg timeout: Explicit operation timeout
         :arg types: A comma-separated list of document types for the `indexing`
             index metric
+        :arg include_segment_file_sizes: Whether to report the aggregated disk
+            usage of each one of the Lucene index files (only applies if segment
+            stats are requested)
         """
         return self.transport.perform_request('GET', _make_path('_nodes',
             node_id, 'stats', metric, index_metric), params=params)
